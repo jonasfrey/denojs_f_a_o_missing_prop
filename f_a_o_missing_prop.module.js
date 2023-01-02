@@ -86,7 +86,7 @@ var f_a_o_missing_prop__recursive = function (
 if(window.Deno){
     if(Deno.args[0]=='test'){
         // readme.md:startfile
-        // readme.md: # what for?
+        // readme.md: # what is it for?
         // readme.md: you can check if two objects are from the same class
         // readme.md: without have them instantiated in the same running proccess, 
         // readme.md: so you can for example check if a json decoded object is of certain class/type
