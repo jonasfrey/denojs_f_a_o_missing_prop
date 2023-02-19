@@ -1,4 +1,4 @@
-[comment]: <> ({"s_msg":"this file was automatically generated","s_by":"generate_readme.js","s_ts_created":"Sun Feb 19 2023 00:46:11 GMT+0100 (Central European Standard Time)","n_ts_created":1676763971620})
+[comment]: <> ({"s_msg":"this file was automatically generated","s_by":"generate_readme.js","s_ts_created":"Sun Feb 19 2023 21:40:37 GMT+0100 (Central European Standard Time)","n_ts_created":1676839237906})
 
  # what is it for?
  you can check if two objects are from the same class
@@ -13,6 +13,21 @@ var o_2 = {n_a:2, n_b:3, o_c: {}, a_d: [0,2], s_x:"D"};
 var a_o_missing_prop = f_a_o_missing_prop(o_1, o_2);
 console.log(a_o_missing_prop)
  ```
+
+ ## null is also an object in javascript -.-
+```javascript
+console.log("test both objects same")
+var o_1 = null;
+var o_2 = {n_a:2, n_b:3, o_c: {}, a_d: [0,2], s_x:"D"};
+var a_o_missing_prop = f_a_o_missing_prop(o_1, o_2);
+console.log(a_o_missing_prop)
+
+var o_1 = {n_a:2, n_b:3, o_c: {}, a_d: [0,2], s_x:"D"};
+var o_2 = null;
+var a_o_missing_prop = f_a_o_missing_prop(o_1, o_2);
+ ```
+
+
 
  ## object2 is different
 ```javascript
@@ -55,6 +70,68 @@ o_sub: {n_a:2, n_b:3}
 var o_2  = {
 o_sub_existing_on_only_o2: "i am only on o2",
 o_sub: {n_a:2, n_b:3, n_c:44, n_d: 23}
+}
+var a_o_missing_prop = f_a_o_missing_prop__recursive(o_1, o_2);
+console.log(a_o_missing_prop)
+var a_o_missing_prop = f_a_o_missing_prop__recursive(o_2, o_1);
+console.log(a_o_missing_prop)
+```
+
+ ## not same
+```javascript
+console.log("test recursive")
+var o_1 = {
+o_sub: {
+a: null
+}
+}
+var o_2 = {
+o_sub: {
+a: {
+b: 2
+}
+}
+}
+var a_o_missing_prop = f_a_o_missing_prop__recursive(o_1, o_2);
+console.log(a_o_missing_prop)
+var a_o_missing_prop = f_a_o_missing_prop__recursive(o_2, o_1);
+console.log(a_o_missing_prop)
+
+console.log("test recursive")
+var o_1 = {
+o_sub: {
+a: {
+b: 2
+}
+}
+}
+var o_2 = {
+o_sub: {
+a: null
+}
+}
+var a_o_missing_prop = f_a_o_missing_prop__recursive(o_1, o_2);
+console.log(a_o_missing_prop)
+var a_o_missing_prop = f_a_o_missing_prop__recursive(o_2, o_1);
+console.log(a_o_missing_prop)
+
+
+
+console.log("test recursive")
+var o_1 = {
+o_sub: {
+a: {
+b: 2
+}
+}
+}
+var o_2 = {
+o_sub: {
+a: 1,
+b: 'test',
+c: [],
+d: {}
+}
 }
 var a_o_missing_prop = f_a_o_missing_prop__recursive(o_1, o_2);
 console.log(a_o_missing_prop)

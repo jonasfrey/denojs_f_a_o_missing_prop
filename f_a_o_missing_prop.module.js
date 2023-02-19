@@ -14,10 +14,20 @@ const f_a_o_missing_prop_in_first_arg_object = function(
     o_2, 
     s_prop_name_prefix = ''
 ){
-    let a_o_props__o_2 = Object.keys(o_2);
+    try {
+        var a_o_props__o_2 = Object.keys(o_2);
+    } catch (error) {
+        var a_o_props__o_2 = []
+    }
     let a_o_missing_prop = []
     for(let s of a_o_props__o_2){
-        if(!o_1.hasOwnProperty(s)){
+        try{
+            var b_prop_existing = o_1.hasOwnProperty(s);
+        }catch{
+            var b_prop_existing = false;
+        }
+
+        if(!b_prop_existing){
             a_o_missing_prop.push(new O_missing_prop(o_1, o_2, s_prop_name_prefix+s));
         }
     }
@@ -52,22 +62,40 @@ const f_a_o_missing_prop__recursive_in_first_arg_object = function (
     // console.log(a_o_missing_prop)
     for(let s of a_o_props__o_2){
         // console.log(s)
-        if(o_1.hasOwnProperty(s)){
-            if(typeof o_2[s] == "object"){
-                // console.log(s)
-                let a_o_missing_prop__child = f_a_o_missing_prop__recursive_in_first_arg_object(
-                    o_1[s],
-                    o_2[s],
-                    o_1__root,
-                    o_2__root,
-                    s+"."//s_prop_name prefix
-                )
-                // console.log("a_o_missing_prop__child")
-                // console.log(a_o_missing_prop__child)
-                a_o_missing_prop = a_o_missing_prop.concat(
-                    a_o_missing_prop__child
-                )
-            }
+        // console.log("o_1")
+        // console.log(o_1)
+        // console.log("o_2")
+        // console.log(o_2)
+        try {
+            var v1 = o_1[s];
+        } catch (error) {
+            var v1 = null;
+        }
+        try {
+            var v2 = o_2[s];
+        } catch (error) {
+            var v2 = null;
+        }
+        // var v1 = (o_1[s] ? o_1[s] : null);
+        // var v2 = (o_2[s] ? o_2[s] : null);
+        if(
+            // (typeof v1 === typeof v2)
+              typeof v2 == "object" && v2 !== null
+            //   && (v1 !== null && v2 !== null) // typeof null is 'object' in js -.-
+            ){
+
+            let a_o_missing_prop__child = f_a_o_missing_prop__recursive_in_first_arg_object(
+                o_1[s],
+                o_2[s],
+                o_1__root,
+                o_2__root,
+                s+"."//s_prop_name prefix
+            )
+            // console.log("a_o_missing_prop__child")
+            // console.log(a_o_missing_prop__child)
+            a_o_missing_prop = a_o_missing_prop.concat(
+                a_o_missing_prop__child
+            )
         }
     }
     let a_o_missing_prop__recursive_in_first_arg_object = []
@@ -103,6 +131,23 @@ if(window.Deno){
         var a_o_missing_prop = f_a_o_missing_prop(o_1, o_2);
         console.log(a_o_missing_prop)
         // readme.md: ```
+
+        // readme.md: ## null is also an object in javascript -.-
+        // readme.md:```javascript
+        console.log("test both objects same")
+        var o_1 = null;
+        var o_2 = {n_a:2, n_b:3, o_c: {}, a_d: [0,2], s_x:"D"};
+        var a_o_missing_prop = f_a_o_missing_prop(o_1, o_2);
+        console.log(a_o_missing_prop)
+
+        var o_1 = {n_a:2, n_b:3, o_c: {}, a_d: [0,2], s_x:"D"};
+        var o_2 = null;
+        var a_o_missing_prop = f_a_o_missing_prop(o_1, o_2);
+        // console.log(a_o_missing_prop)
+        // Deno.exit()
+        // readme.md: ```
+
+
 
         // readme.md: ## object2 is different
         // readme.md:```javascript
@@ -145,6 +190,68 @@ if(window.Deno){
         var o_2  = {
             o_sub_existing_on_only_o2: "i am only on o2",
             o_sub: {n_a:2, n_b:3, n_c:44, n_d: 23}
+        }
+        var a_o_missing_prop = f_a_o_missing_prop__recursive(o_1, o_2);
+        console.log(a_o_missing_prop)
+        var a_o_missing_prop = f_a_o_missing_prop__recursive(o_2, o_1);
+        console.log(a_o_missing_prop)
+        // readme.md:```
+
+        // readme.md: ## not same
+        // readme.md:```javascript
+        console.log("test recursive")
+        var o_1 = {
+            o_sub: { 
+                a: null
+            }
+        }
+        var o_2 = {
+            o_sub: { 
+                a: {
+                    b: 2 
+                }
+            }
+        }
+        var a_o_missing_prop = f_a_o_missing_prop__recursive(o_1, o_2);
+        console.log(a_o_missing_prop)
+        var a_o_missing_prop = f_a_o_missing_prop__recursive(o_2, o_1);
+        console.log(a_o_missing_prop)
+
+        console.log("test recursive")
+        var o_1 = {
+            o_sub: { 
+                a: {
+                    b: 2 
+                }
+            }
+        }
+        var o_2 = {
+            o_sub: { 
+                a: null
+            }
+        }
+        var a_o_missing_prop = f_a_o_missing_prop__recursive(o_1, o_2);
+        console.log(a_o_missing_prop)
+        var a_o_missing_prop = f_a_o_missing_prop__recursive(o_2, o_1);
+        console.log(a_o_missing_prop)
+
+
+
+        console.log("test recursive")
+        var o_1 = {
+            o_sub: { 
+                a: {
+                    b: 2 
+                }
+            }
+        }
+        var o_2 = {
+            o_sub: { 
+                a: 1,
+                b: 'test', 
+                c: [], 
+                d: {}
+            }
         }
         var a_o_missing_prop = f_a_o_missing_prop__recursive(o_1, o_2);
         console.log(a_o_missing_prop)
