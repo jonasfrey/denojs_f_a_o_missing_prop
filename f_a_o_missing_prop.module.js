@@ -119,7 +119,7 @@ if(window.Deno){
     if(
         Deno.args[0]=='test'
         && 
-        Deno.meta.main == true // if this is not checked, the test will run also when this script is imported by another script    
+        import.meta.main == true // if this is not checked, the test will run also when this script is imported by another script    
     ){
         // readme.md:startfile
         // readme.md: # what is it for?
