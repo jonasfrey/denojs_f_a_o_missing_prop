@@ -116,7 +116,11 @@ const f_a_o_missing_prop__recursive = function (
 }
 
 if(window.Deno){
-    if(Deno.args[0]=='test'){
+    if(
+        Deno.args[0]=='test'
+        && 
+        Deno.meta.main == true // if this is not checked, the test will run also when this script is imported by another script    
+    ){
         // readme.md:startfile
         // readme.md: # what is it for?
         // readme.md: you can check if two objects are from the same class
