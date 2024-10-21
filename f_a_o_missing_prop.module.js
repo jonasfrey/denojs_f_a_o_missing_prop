@@ -115,7 +115,7 @@ const f_a_o_missing_prop__recursive = function (
     return a_o_missing_prop__recursive
 }
 
-if(window.Deno){
+if('Deno' in globalThis){
     if(
         Deno.args[0]=='test'
         && 
